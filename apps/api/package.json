@@ -2,5 +2,8 @@
   "name": "api",
   "version": "1.0.0",
   "main": "src/main.ts",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@prisma/cli": "^2.13.1"
+  }
 }
