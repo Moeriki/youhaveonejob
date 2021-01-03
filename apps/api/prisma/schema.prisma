@@ -15,6 +15,6 @@ model Job {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  description String
   completed   Boolean @default(false)
+  description String
 }

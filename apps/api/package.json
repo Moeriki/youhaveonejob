@@ -1,10 +1,19 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "src/main.ts",
+  "main": "src/server.ts",
   "license": "UNLICENSED",
+  "scripts": {
+    "generate": "yarn run generate:prisma && yarn run generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --compiler-options '{\"module\":\"commonjs\"}' --transpile-only src/app/schema"
+  },
   "dependencies": {
-    "@prisma/client": "^2.13.1"
+    "@prisma/client": "^2.13.1",
+    "apollo-server": "^2.19.1",
+    "graphql": "^15.4.0",
+    "nexus": "^1.0.0",
+    "nexus-plugin-prisma": "^0.27.0"
   },
   "devDependencies": {
     "@prisma/cli": "^2.13.1"
