@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "src/main.ts",
   "license": "UNLICENSED",
+  "dependencies": {
+    "@prisma/client": "^2.13.1"
+  },
   "devDependencies": {
     "@prisma/cli": "^2.13.1"
   }
