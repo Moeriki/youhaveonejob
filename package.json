@@ -2,6 +2,10 @@
   "name": "youhaveonejob",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "^14.15",
+    "yarn": "^1.22"
+  },
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
@@ -31,7 +35,7 @@
     "@nrwl/cli": "11.0.20",
     "@nrwl/tao": "11.0.20",
     "@nrwl/workspace": "11.0.20",
-    "@types/node": "12.12.38",
+    "@types/node": "14.14.19",
     "dotenv": "6.2.0",
     "eslint": "7.10.0",
     "prettier": "2.1.2",
