@@ -1,30 +1,30 @@
 {
-  "npmScope": "youhaveonejob",
   "affected": {
     "defaultBase": "master"
   },
   "implicitDependencies": {
-    "workspace.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*",
     "package.json": {
       "dependencies": "*",
       "devDependencies": "*"
     },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
-    ".eslintrc.json": "*",
-    "nx.json": "*"
+    "workspace.json": "*"
   },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
-    }
-  },
+  "npmScope": "youhaveonejob",
   "projects": {
     "api": {
       "tags": []
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      },
+      "runner": "@nrwl/workspace/tasks-runners/default"
     }
   }
 }

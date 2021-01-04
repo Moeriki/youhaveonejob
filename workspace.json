@@ -1,33 +1,42 @@
 {
-  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/node"
+  },
+  "defaultProject": "api",
   "projects": {
     "api": {
+      "prefix": "api",
+      "projectType": "application",
       "root": "apps/api",
       "sourceRoot": "apps/api/src",
-      "projectType": "application",
-      "prefix": "api",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/api",
-            "main": "apps/api/src/server.ts",
-            "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
-          },
           "configurations": {
             "production": {
-              "optimization": true,
               "extractLicenses": true,
-              "inspect": false,
               "fileReplacements": [
                 {
                   "replace": "apps/api/src/environments/environment.ts",
                   "with": "apps/api/src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "inspect": false,
+              "optimization": true
             }
+          },
+          "executor": "@nrwl/node:build",
+          "options": {
+            "assets": ["apps/api/src/assets"],
+            "main": "apps/api/src/server.ts",
+            "outputPath": "dist/apps/api",
+            "tsConfig": "apps/api/tsconfig.app.json"
+          },
+          "outputs": ["{options.outputPath}"]
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
           }
         },
         "serve": {
@@ -36,25 +45,16 @@
             "buildTarget": "api:build"
           }
         },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/api/**/*.ts"]
-          }
-        },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/api"],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/api"]
         }
       }
     }
   },
-  "cli": {
-    "defaultCollection": "@nrwl/node"
-  },
-  "defaultProject": "api"
+  "version": 2
 }
