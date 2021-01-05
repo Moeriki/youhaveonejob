@@ -13,7 +13,11 @@ if (process.env.NODE_ENV === 'development') {
       )
   );
 } else {
-  const server = new ApolloServerLambda({ context: createContext, schema });
+  const server = new ApolloServerLambda({
+    context: createContext,
+    playground: { endpoint: '/dev/graphql' },
+    schema,
+  });
   exports.handler = server.createHandler({
     cors: {
       credentials: true,
