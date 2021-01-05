@@ -1,8 +1,10 @@
 service: yhoj-api
+useDotenv: true
 
 functions:
   api:
     environment:
+      DATABASE_URL: ${env:DATABASE_URL}
       NODE_ENV: production
     handler: dist/apps/api/main.handler
     events:
