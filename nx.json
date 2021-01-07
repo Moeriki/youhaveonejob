@@ -17,6 +17,13 @@
   "projects": {
     "api": {
       "tags": []
+    },
+    "web-app": {
+      "tags": []
+    },
+    "web-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["web-app"]
     }
   },
   "tasksRunnerOptions": {
