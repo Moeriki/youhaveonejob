@@ -17,9 +17,12 @@ functions:
           method: get
           cors: true
     package:
+      exclude:
+        - node_modules/@prisma/**/*-{darwin,windows}
       include:
         - dist/apps/api/**
         - node_modules/.prisma/**
+        - '!node_modules/.prisma/**/*-{darwin,windows}'
 
 package:
   # We exclude everything by default.

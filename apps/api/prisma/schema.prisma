@@ -7,6 +7,10 @@ datasource db {
 }
 
 generator client {
+  // 'native' binary will automatically select the correct query-engine binary to
+  // run the Prisma client when the application run on the developer's machine.
+  // 'rhel-openssl-1.0.x' binary is so that it runs on AWS Lambda.
+  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#binarytargets-options
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
   provider      = "prisma-client-js"
 }
