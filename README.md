@@ -12,4 +12,4 @@
 
 ### Production
 
-- [API](https://f2c6wj1yai.execute-api.eu-west-1.amazonaws.com/prod)
+- [API](https://f2c6wj1yai.execute-api.eu-west-1.amazonaws.com/prod/graphql)
