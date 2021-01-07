@@ -6,6 +6,9 @@
 
 ### Local development
 
+- [API](http://localhost:4000)
+- [Web App](http://localhost:4200)
+
 ### Development
 
 - [API](https://oaobhbrxqk.execute-api.eu-west-1.amazonaws.com/dev/graphql)
