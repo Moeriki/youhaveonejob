@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   const server = new ApolloServerLambda({
     context: createContext,
-    playground: { endpoint: '/dev/graphql' },
+    playground: { endpoint: '/:stage/graphql' },
     schema,
   });
   exports.handler = server.createHandler({
