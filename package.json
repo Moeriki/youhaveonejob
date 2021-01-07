@@ -8,8 +8,9 @@
   },
   "scripts": {
     "nx": "nx",
-    "start": "nx serve",
-    "build": "nx build",
+    "start": "pm2 restart pm2-dev.yml",
+    "stop": "pm2 stop pm2-dev.yml",
+    "build": "nx run-many --target=build --projects=api,web-app --with-deps",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",

@@ -1,0 +1,5 @@
+apps:
+  - name: api
+    script: 'yarn nx serve api'
+  - name: web-app
+    script: 'yarn nx serve web-app'
