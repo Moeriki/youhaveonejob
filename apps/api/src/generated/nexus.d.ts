@@ -104,6 +104,9 @@ export interface NexusGenArgTypes {
     job: { // args
       id?: number | null; // Int
     }
+    jobs: { // args
+      completed?: boolean | null; // Boolean
+    }
   }
 }
 

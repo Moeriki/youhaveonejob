@@ -1,4 +1,4 @@
-import { intArg, nonNull, objectType, stringArg } from 'nexus';
+import { booleanArg, intArg, nonNull, objectType, stringArg } from 'nexus';
 
 export const job = objectType({
   name: 'Job',
@@ -27,8 +27,12 @@ export const Query = objectType({
 
     t.list.field('jobs', {
       type: 'Job',
-      resolve: (_, args, ctx) => {
-        return ctx.prisma.job.findMany();
+      args: { completed: booleanArg() },
+      resolve: (_, { completed = false }, ctx) => {
+        return ctx.prisma.job.findMany({
+          where: { completed },
+          orderBy: { createdAt: 'asc' },
+        });
       },
     });
   },
