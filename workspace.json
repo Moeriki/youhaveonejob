@@ -2,7 +2,7 @@
   "cli": {
     "defaultCollection": "@nrwl/node"
   },
-  "defaultProject": "api",
+  "defaultProject": "web-app",
   "generators": {
     "@nrwl/next": {
       "application": {
