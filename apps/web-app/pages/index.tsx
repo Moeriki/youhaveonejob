@@ -13,6 +13,13 @@ import styled from 'styled-components';
 import { Layout } from '../components/layout';
 import { Button, GhostButton } from '../components/button/button';
 import { Sticky } from '../components/sticky/sticky';
+import {
+  CompleteJobInput,
+  CreateJobInput,
+  useCompleteJob,
+  useCreateJob,
+  useGetJobs,
+} from '../data/job';
 
 const StyledWorkArea = styled.div`
   position: relative;
@@ -65,67 +72,31 @@ const StyledBottom = styled.div`
   }
 `;
 
-interface Job {
-  id: number;
-  completed: boolean;
-  description: string;
-}
-
-interface CreateJobValues {
-  description: string;
-}
-
-// #region graphql
-
-const CREATE_JOB = gql`
-  mutation CreateJob($description: String!) {
-    createJob(description: $description) {
-      id
-      completed
-      description
-    }
-  }
-`;
-
-const GET_JOBS = gql`
-  query GetJobs {
-    jobs(completed: false) {
-      id
-      completed
-      description
-    }
-  }
-`;
-
-// #endregion
-
 export function Index() {
-  // #region graphql hooks
-  const [createJob, createJobMutation] = useMutation<
-    { job: Job },
-    { description: string }
-  >(CREATE_JOB);
-  const jobsQuery = useQuery<{ jobs: Job[] }, { completed: boolean }>(GET_JOBS);
-  // #endregion
+  const [completeJob, completeJobMutation] = useCompleteJob();
+  const [createJob, createJobMutation] = useCreateJob();
+  const jobsQuery = useGetJobs();
 
-  // #region handlers
-  const handleCreateJobValidate = (values: CreateJobValues) => {
+  const handleCompleteJob = async ({ id }: CompleteJobInput) => {
+    await completeJob({ variables: { id } });
+  };
+
+  const handleCreateJobValidate = ({ description }: CreateJobInput) => {
     const errors: FormikErrors<CreateJobValues> = {};
-    if (values.description.trim() === '') {
+    if (description.trim() === '') {
       errors.description = 'A description is required';
     }
     return errors;
   };
 
   const handleCreateJobSubmitForm = async (
-    values: CreateJobValues,
-    { resetForm }: FormikHelpers<CreateJobValues>
+    values: CreateJobInput,
+    { resetForm }: FormikHelpers<CreateJobInput>
   ): Promise<void> => {
     const result = await createJob({ variables: values });
     resetForm();
     jobsQuery.refetch();
   };
-  // #endregion handlers
 
   const firstJob =
     jobsQuery.data == null
@@ -138,13 +109,22 @@ export function Index() {
         {jobsQuery.error && (
           <p className="error">Could not load jobs: {jobsQuery.error}</p>
         )}
+        {completeJobMutation.error && (
+          <p className="error">Could not complete job: {completeJobMutation.error}</p>
+        )}
+        {createJobMutation.error && (
+          <p className="error">Could not create job: {createJobMutation.error}</p>
+        )}
         {jobsQuery.loading ? (
           <div className="no-sticky">...</div>
         ) : firstJob == null ? (
           <div className="no-sticky">And you did it.</div>
         ) : (
           <div className="sticky">
-            <Sticky currentJob={firstJob} />
+            <Sticky
+              currentJob={firstJob}
+              onComplete={() => handleCompleteJob(firstJob)}
+            />
           </div>
         )}
       </StyledWorkArea>

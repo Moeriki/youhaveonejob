@@ -2,16 +2,8 @@ import { gql, useMutation } from '@apollo/client';
 import React from 'react';
 import styled from 'styled-components';
 
+import { useCompleteJob } from '../../data/job';
 import { Button } from '../button/button';
-
-const COMPLETE_JOB = gql`
-  mutation CompleteJob($id: Id!) {
-    completeJob(id: $id) {
-      id
-      completed
-    }
-  }
-`;
 
 const StyledSticky = styled.div`
   position: relative;
@@ -57,20 +49,10 @@ export function Sticky({
   children,
   onComplete,
 }: StickyProps): React.ReactElement {
-  const [completeJob, completeJobMutation] = useMutation<
-    { job: { id: string } },
-    { id: number }
-  >(COMPLETE_JOB);
-
-  const handleCompleteJob = async (id: number) => {
-    await completeJob({ variables: { id } });
-  };
-
   return (
     <StyledSticky>
-      <div class="description">{currentJob.description}</div>
+      <div className="description">{currentJob.description}</div>
       <div className="actions">
-        {completeJobMutation.error}
         <Button type="button" onClick={() => onComplete(currentJob.id)}>
           Complete
         </Button>
