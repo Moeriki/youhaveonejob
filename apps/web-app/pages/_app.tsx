@@ -65,7 +65,7 @@ function createClient(): ApolloClient {
   return new ApolloClient({
     cache: new InMemoryCache(),
     ssrMode: typeof window === 'undefined',
-    uri: 'http://localhost:4000',
+    uri: process.env.NEXT_PUBLIC_API_URL,
   });
 }
 

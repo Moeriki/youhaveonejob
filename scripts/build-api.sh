@@ -4,4 +4,4 @@ yarn workspace api run generate:prisma
 cp -r apps/api/node_modules/.prisma ./node_modules
 
 # Build API code
-yarn nx run api:build --configuration=production
+yarn nx run api:build --includeDeps --prod
