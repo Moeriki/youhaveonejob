@@ -40,7 +40,7 @@ export function Layout({ children, jobCount }: Props): React.ReactElement {
     <StyledLayout>
       <header>
         <h1>
-          <div>You {jobCount ? 'Have' : 'Had'}</div>
+          <div>You {jobCount > 0 ? 'Have' : 'Had'}</div>
           <div>One Job!</div>
         </h1>
       </header>
