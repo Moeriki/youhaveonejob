@@ -11,7 +11,7 @@
     "start": "pm2 restart pm2-dev.yml",
     "stop": "pm2 stop pm2-dev.yml",
     "build": "nx run-many --target=build --projects=api,web-app --with-deps",
-    "test": "nx test",
+    "test": "nx run-many --target=test --projects=api,web-app --with-deps",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",

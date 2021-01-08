@@ -39,14 +39,12 @@ const StyledSticky = styled.div`
 
 /* eslint-disable-next-line */
 export interface StickyProps {
-  children: React.ReactNode;
   currentJob: Job;
   onComplete: (id: number) => void;
 }
 
 export function Sticky({
   currentJob,
-  children,
   onComplete,
 }: StickyProps): React.ReactElement {
   return (

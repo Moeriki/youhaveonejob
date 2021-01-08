@@ -1,18 +1,13 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { Button, GhostButton } from './button';
+import { Job } from '../../data/job';
+import { Sticky } from './sticky';
 
-describe('Button', () => {
+describe('Sticky', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Button />);
-    expect(baseElement).toBeTruthy();
-  });
-});
-
-describe('GhostButton', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(<GhostButton />);
+    const JOB: Job = { id: 1, description: 'Hello World!' };
+    const { baseElement } = render(<Sticky currentJob={JOB} />);
     expect(baseElement).toBeTruthy();
   });
 });
