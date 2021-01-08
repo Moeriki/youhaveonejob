@@ -2,7 +2,20 @@
   "cli": {
     "defaultCollection": "@nrwl/node"
   },
-  "defaultProject": "api",
+  "defaultProject": "web-app",
+  "generators": {
+    "@nrwl/next": {
+      "application": {
+        "linter": "eslint",
+        "style": "styled-components"
+      }
+    },
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    }
+  },
   "projects": {
     "api": {
       "prefix": "api",
@@ -52,6 +65,83 @@
             "passWithNoTests": true
           },
           "outputs": ["coverage/apps/api"]
+        }
+      }
+    },
+    "web-app": {
+      "projectType": "application",
+      "root": "apps/web-app",
+      "sourceRoot": "apps/web-app",
+      "targets": {
+        "build": {
+          "configurations": {
+            "production": {}
+          },
+          "executor": "@nrwl/next:build",
+          "options": {
+            "outputPath": "dist/apps/web-app",
+            "root": "apps/web-app"
+          },
+          "outputs": ["{options.outputPath}"]
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "web-app:build:production"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/web-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "serve": {
+          "configurations": {
+            "production": {
+              "buildTarget": "web-app:build:production",
+              "dev": false
+            }
+          },
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "web-app:build",
+            "dev": true
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/web-app/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/apps/web-app"]
+        }
+      }
+    },
+    "web-app-e2e": {
+      "projectType": "application",
+      "root": "apps/web-app-e2e",
+      "sourceRoot": "apps/web-app-e2e/src",
+      "targets": {
+        "e2e": {
+          "configurations": {
+            "production": {
+              "devServerTarget": "web-app:serve:production"
+            }
+          },
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/web-app-e2e/cypress.json",
+            "devServerTarget": "web-app:serve",
+            "tsConfig": "apps/web-app-e2e/tsconfig.e2e.json"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/web-app-e2e/**/*.{js,ts}"]
+          }
         }
       }
     }

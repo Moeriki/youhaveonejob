@@ -1,4 +1,5 @@
-import { intArg, nonNull, objectType, stringArg } from 'nexus';
+import { UserInputError } from 'apollo-server';
+import { booleanArg, intArg, nonNull, objectType, stringArg } from 'nexus';
 
 export const job = objectType({
   name: 'Job',
@@ -27,8 +28,12 @@ export const Query = objectType({
 
     t.list.field('jobs', {
       type: 'Job',
-      resolve: (_, args, ctx) => {
-        return ctx.prisma.job.findMany();
+      args: { completed: booleanArg() },
+      resolve: (_, { completed = false }, ctx) => {
+        return ctx.prisma.job.findMany({
+          where: { completed },
+          orderBy: { createdAt: 'asc' },
+        });
       },
     });
   },
@@ -43,6 +48,9 @@ export const Mutation = objectType({
         description: nonNull(stringArg()),
       },
       resolve: (_, { description }, ctx) => {
+        if (description.trim() === '') {
+          throw new UserInputError('Cannot create job without a description');
+        }
         return ctx.prisma.job.create({
           data: {
             description,
@@ -51,7 +59,7 @@ export const Mutation = objectType({
       },
     });
 
-    t.nullable.field('completeJob', {
+    t.field('completeJob', {
       type: 'Job',
       args: { id: intArg() },
       resolve: (_, { id }, ctx) => {

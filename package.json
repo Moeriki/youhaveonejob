@@ -8,9 +8,10 @@
   },
   "scripts": {
     "nx": "nx",
-    "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test",
+    "start": "pm2 restart pm2-dev.yml",
+    "stop": "pm2 stop pm2-dev.yml",
+    "build": "nx run-many --target=build --projects=api,web-app --with-deps",
+    "test": "nx run-many --target=test --projects=api,web-app --with-deps",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",
@@ -33,10 +34,14 @@
   "dependencies": {},
   "devDependencies": {
     "@nrwl/cli": "11.0.20",
+    "@nrwl/cypress": "11.0.20",
     "@nrwl/eslint-plugin-nx": "11.0.20",
     "@nrwl/jest": "11.0.20",
+    "@nrwl/next": "11.0.20",
     "@nrwl/node": "11.0.20",
+    "@nrwl/react": "11.0.20",
     "@nrwl/tao": "11.0.20",
+    "@nrwl/web": "11.0.20",
     "@nrwl/workspace": "11.0.20",
     "@types/jest": "26.0.8",
     "@types/node": "14.14.19",
@@ -45,6 +50,7 @@
     "dotenv": "6.2.0",
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-cypress": "2.10.3",
     "jest": "26.2.2",
     "prettier": "2.1.2",
     "serverless": "^2.17.0",
@@ -52,6 +58,9 @@
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
     "typescript": "~4.0.3"
+  },
+  "resolutions": {
+    "**/@babel/preset-typescript": "7.9.0"
   },
   "workspaces": [
     "apps/*",

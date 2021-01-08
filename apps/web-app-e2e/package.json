@@ -1,0 +1,8 @@
+{
+  "name": "web-app-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "cypress": "^5.5.0"
+  }
+}
