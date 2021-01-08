@@ -12,6 +12,7 @@ const StyledButton = styled.button`
   border-radius: 5px;
   background-color: var(--tea-green);
   color: var(--flickr-pink);
+  cursor: pointer;
 `;
 
 export const Button = StyledButton;
