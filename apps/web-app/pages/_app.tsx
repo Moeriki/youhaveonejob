@@ -4,8 +4,9 @@ import {
   gql,
   InMemoryCache,
 } from '@apollo/client';
+import LogRocket from 'logrocket';
 import { AppProps } from 'next';
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement, useEffect, useMemo } from 'react';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -105,6 +106,10 @@ export default function Application({
   pageProps,
 }: AppProps): ReactElement {
   const client = useClient(pageProps.initialApolloState);
+
+  useEffect(() => {
+    LogRocket.init('kwpvna/you-have-one-job');
+  }, []);
 
   return (
     <ApolloProvider client={client}>
