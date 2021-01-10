@@ -38,7 +38,7 @@ export interface NexusGenObjects {
     completed: boolean; // Boolean!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
-    id: number; // Int!
+    id: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: {};
@@ -60,7 +60,7 @@ export interface NexusGenFieldTypes {
     completed: boolean; // Boolean!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
-    id: number; // Int!
+    id: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: { // field return type
@@ -78,7 +78,7 @@ export interface NexusGenFieldTypeNames {
     completed: 'Boolean'
     createdAt: 'DateTime'
     description: 'String'
-    id: 'Int'
+    id: 'String'
     updatedAt: 'DateTime'
   }
   Mutation: { // field return type name
@@ -94,7 +94,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     completeJob: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     createJob: { // args
       description: string; // String!
@@ -102,7 +102,7 @@ export interface NexusGenArgTypes {
   }
   Query: {
     job: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     jobs: { // args
       completed?: boolean | null; // Boolean

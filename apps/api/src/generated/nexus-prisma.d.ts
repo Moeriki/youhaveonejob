@@ -45,7 +45,7 @@ interface NexusPrismaOutputs {
     upsertOneJob: 'Job'
   },
   Job: {
-    id: 'Int'
+    id: 'String'
     createdAt: 'DateTime'
     updatedAt: 'DateTime'
     completed: 'Boolean'

@@ -16,7 +16,7 @@ generator client {
 }
 
 model Job {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

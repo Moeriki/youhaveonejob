@@ -8,16 +8,16 @@ type Job {
   completed: Boolean!
   createdAt: DateTime!
   description: String!
-  id: Int!
+  id: String!
   updatedAt: DateTime!
 }
 
 type Mutation {
-  completeJob(id: Int): Job
+  completeJob(id: String): Job
   createJob(description: String!): Job
 }
 
 type Query {
-  job(id: Int): Job
+  job(id: String): Job
   jobs(completed: Boolean): [Job]
 }

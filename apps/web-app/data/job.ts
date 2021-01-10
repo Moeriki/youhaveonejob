@@ -7,13 +7,13 @@ import {
 } from '@apollo/client';
 
 export interface Job {
-  id: number;
+  id: string;
   completed: boolean;
   description: string;
 }
 
 const COMPLETE_JOB = gql`
-  mutation CompleteJob($id: Int!) {
+  mutation CompleteJob($id: String!) {
     completeJob(id: $id) {
       id
       completed

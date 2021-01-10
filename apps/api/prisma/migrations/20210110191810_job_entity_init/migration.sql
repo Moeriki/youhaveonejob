@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE "Job" (
-"id" SERIAL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "description" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
+    "description" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
