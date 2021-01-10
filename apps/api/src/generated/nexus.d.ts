@@ -34,6 +34,9 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Authentication: { // root type
+    token?: string | null; // String
+  }
   Job: { // root type
     completed: boolean; // Boolean!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -43,6 +46,12 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Query: {};
+  User: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email: string; // String!
+    id: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -56,6 +65,9 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Authentication: { // field return type
+    token: string | null; // String
+  }
   Job: { // field return type
     completed: boolean; // Boolean!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -66,14 +78,25 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     completeJob: NexusGenRootTypes['Job'] | null; // Job
     createJob: NexusGenRootTypes['Job'] | null; // Job
+    login: NexusGenRootTypes['Authentication'] | null; // Authentication
+    register: NexusGenRootTypes['Authentication'] | null; // Authentication
   }
   Query: { // field return type
     job: NexusGenRootTypes['Job'] | null; // Job
     jobs: Array<NexusGenRootTypes['Job'] | null> | null; // [Job]
   }
+  User: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email: string; // String!
+    id: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
+  Authentication: { // field return type name
+    token: 'String'
+  }
   Job: { // field return type name
     completed: 'Boolean'
     createdAt: 'DateTime'
@@ -84,10 +107,18 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     completeJob: 'Job'
     createJob: 'Job'
+    login: 'Authentication'
+    register: 'Authentication'
   }
   Query: { // field return type name
     job: 'Job'
     jobs: 'Job'
+  }
+  User: { // field return type name
+    createdAt: 'DateTime'
+    email: 'String'
+    id: 'String'
+    updatedAt: 'DateTime'
   }
 }
 
@@ -98,6 +129,14 @@ export interface NexusGenArgTypes {
     }
     createJob: { // args
       description: string; // String!
+    }
+    login: { // args
+      email: string; // String!
+      password: string; // String!
+    }
+    register: { // args
+      email: string; // String!
+      password: string; // String!
     }
   }
   Query: {

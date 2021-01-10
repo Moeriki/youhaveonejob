@@ -2,6 +2,10 @@
 ### Do not make changes to this file directly
 
 
+type Authentication {
+  token: String
+}
+
 scalar DateTime
 
 type Job {
@@ -15,9 +19,18 @@ type Job {
 type Mutation {
   completeJob(id: String!): Job
   createJob(description: String!): Job
+  login(email: String!, password: String!): Authentication
+  register(email: String!, password: String!): Authentication
 }
 
 type Query {
   job(id: String!): Job
   jobs(completed: Boolean): [Job]
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  updatedAt: DateTime!
 }
