@@ -23,3 +23,12 @@ model Job {
   completed   Boolean @default(false)
   description String
 }
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email    String @unique
+  password String
+}

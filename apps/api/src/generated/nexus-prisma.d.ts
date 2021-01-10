@@ -15,6 +15,7 @@ type CustomScalars = 'DateTime'
 // Prisma model type definitions
 interface PrismaModels {
   Job: Prisma.Job
+  User: Prisma.User
 }
 
 // Prisma input types metadata
@@ -24,8 +25,15 @@ interface NexusPrismaInputs {
       filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'completed' | 'description'
       ordering: 'id' | 'createdAt' | 'updatedAt' | 'completed' | 'description'
     }
+    users: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'email' | 'password'
+      ordering: 'id' | 'createdAt' | 'updatedAt' | 'email' | 'password'
+    }
   },
   Job: {
+
+  }
+  User: {
 
   }
 }
@@ -35,6 +43,8 @@ interface NexusPrismaOutputs {
   Query: {
     job: 'Job'
     jobs: 'Job'
+    user: 'User'
+    users: 'User'
   },
   Mutation: {
     createOneJob: 'Job'
@@ -43,6 +53,12 @@ interface NexusPrismaOutputs {
     deleteOneJob: 'Job'
     deleteManyJob: 'BatchPayload'
     upsertOneJob: 'Job'
+    createOneUser: 'User'
+    updateOneUser: 'User'
+    updateManyUser: 'BatchPayload'
+    deleteOneUser: 'User'
+    deleteManyUser: 'BatchPayload'
+    upsertOneUser: 'User'
   },
   Job: {
     id: 'String'
@@ -51,11 +67,19 @@ interface NexusPrismaOutputs {
     completed: 'Boolean'
     description: 'String'
   }
+  User: {
+    id: 'String'
+    createdAt: 'DateTime'
+    updatedAt: 'DateTime'
+    email: 'String'
+    password: 'String'
+  }
 }
 
 // Helper to gather all methods relative to a model
 interface NexusPrismaMethods {
   Job: Typegen.NexusPrismaFields<'Job'>
+  User: Typegen.NexusPrismaFields<'User'>
   Query: Typegen.NexusPrismaFields<'Query'>
   Mutation: Typegen.NexusPrismaFields<'Mutation'>
 }
