@@ -1,4 +1,9 @@
-import { AuthenticationError, UserInputError } from 'apollo-server';
+import { User } from '@prisma/client';
+import {
+  AuthenticationError,
+  ForbiddenError,
+  UserInputError,
+} from 'apollo-server';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { booleanArg, intArg, nonNull, objectType, stringArg } from 'nexus';
@@ -51,8 +56,11 @@ export const Query = objectType({
     t.list.field('jobs', {
       type: 'Job',
       args: { completed: booleanArg() },
-      resolve: (_, { completed = false }, ctx) => {
-        return ctx.prisma.job.findMany({
+      resolve: (_, { completed = false }, { prisma, user }) => {
+        if (user == null) {
+          throw new ForbiddenError();
+        }
+        return prisma.job.findMany({
           where: { completed },
           orderBy: { createdAt: 'asc' },
         });
@@ -69,11 +77,14 @@ export const Mutation = objectType({
       args: {
         description: nonNull(stringArg()),
       },
-      resolve: (_, { description }, ctx) => {
+      resolve: (_, { description }, { prisma, user }) => {
+        if (user == null) {
+          throw new ForbiddenError();
+        }
         if (description.trim() === '') {
           throw new UserInputError('Cannot create job without a description');
         }
-        return ctx.prisma.job.create({
+        return prisma.job.create({
           data: { description },
         });
       },
@@ -82,8 +93,11 @@ export const Mutation = objectType({
     t.field('completeJob', {
       type: 'Job',
       args: { id: nonNull(stringArg()) },
-      resolve: (_, { id }, ctx) => {
-        return ctx.prisma.job.update({
+      resolve: (_, { id }, { prisma, user }) => {
+        if (user == null) {
+          throw new ForbiddenError();
+        }
+        return prisma.job.update({
           where: { id: Number(id) },
           data: { completed: true },
         });
@@ -93,8 +107,8 @@ export const Mutation = objectType({
     t.field('login', {
       type: 'Authentication',
       args: { email: nonNull(stringArg()), password: nonNull(stringArg()) },
-      resolve: async (_, { email, password }, ctx) => {
-        const user = await ctx.prisma.user.findFirst({
+      resolve: async (_, { email, password }, { prisma }) => {
+        const user = await prisma.user.findFirst({
           where: { email },
         });
         if (user == null) {
@@ -114,12 +128,12 @@ export const Mutation = objectType({
     t.field('register', {
       type: 'Authentication',
       args: { email: nonNull(stringArg()), password: nonNull(stringArg()) },
-      resolve: async (_, { email, password }, ctx) => {
+      resolve: async (_, { email, password }, { prisma }) => {
         const hash = await bcrypt.hash(
           `${password}${PASSWORD_PEPPER}`,
           HASH_ROUNDS
         );
-        const user = await ctx.prisma.user.create({
+        const user = await prisma.user.create({
           data: { email, password: hash },
         });
         return { token: generateUserToken(user) };

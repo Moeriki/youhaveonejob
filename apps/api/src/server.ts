@@ -1,11 +1,11 @@
 import { ApolloServer } from 'apollo-server';
 import { ApolloServer as ApolloServerLambda } from 'apollo-server-lambda';
 
-import { createContext } from './app/context';
+import { createContextExpress, createContextLambda } from './app/context';
 import { schema } from './app/schema';
 
 if (process.env.NODE_ENV === 'development') {
-  new ApolloServer({ context: createContext, schema }).listen(
+  new ApolloServer({ context: createContextExpress, schema }).listen(
     { port: 4000 },
     () =>
       console.log(
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
   );
 } else {
   const server = new ApolloServerLambda({
-    context: createContext,
+    context: createContextLambda,
     playground: { endpoint: '/:stage/graphql' },
     schema,
   });
