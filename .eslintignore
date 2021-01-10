@@ -1,2 +1,4 @@
-apps/api/src/generated
-node_modules
+.next/
+apps/api/src/generated/
+dist/
+node_modules/
