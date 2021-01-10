@@ -82,7 +82,6 @@ export interface NexusGenFieldTypes {
     register: NexusGenRootTypes['Authentication'] | null; // Authentication
   }
   Query: { // field return type
-    job: NexusGenRootTypes['Job'] | null; // Job
     jobs: Array<NexusGenRootTypes['Job'] | null> | null; // [Job]
   }
   User: { // field return type
@@ -111,7 +110,6 @@ export interface NexusGenFieldTypeNames {
     register: 'Authentication'
   }
   Query: { // field return type name
-    job: 'Job'
     jobs: 'Job'
   }
   User: { // field return type name
@@ -140,9 +138,6 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
-    job: { // args
-      id: string; // String!
-    }
     jobs: { // args
       completed?: boolean | null; // Boolean
     }

@@ -48,16 +48,6 @@ export const authentication = objectType({
 export const Query = objectType({
   name: 'Query',
   definition(t) {
-    t.field('job', {
-      type: 'Job',
-      args: { id: nonNull(stringArg()) },
-      resolve: (_, { id }, ctx) => {
-        return ctx.prisma.job.findFirst({
-          where: { id },
-        });
-      },
-    });
-
     t.list.field('jobs', {
       type: 'Job',
       args: { completed: booleanArg() },
