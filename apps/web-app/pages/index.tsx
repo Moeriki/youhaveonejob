@@ -25,6 +25,11 @@ const StyledWorkArea = styled.div`
   position: relative;
   height: 250px;
 
+  .error {
+    color: red;
+    text-align: center;
+  }
+
   .no-sticky,
   .sticky {
     position: absolute;
@@ -107,13 +112,19 @@ export function Index() {
     <Layout jobCount={jobsQuery.data?.jobs.length ?? 0}>
       <StyledWorkArea>
         {jobsQuery.error && (
-          <p className="error">Could not load jobs: {jobsQuery.error}</p>
+          <p className="error">
+            Could not load jobs: {jobsQuery.error.message}
+          </p>
         )}
         {completeJobMutation.error && (
-          <p className="error">Could not complete job: {completeJobMutation.error}</p>
+          <p className="error">
+            Could not complete job: {completeJobMutation.error.message}
+          </p>
         )}
         {createJobMutation.error && (
-          <p className="error">Could not create job: {createJobMutation.error}</p>
+          <p className="error">
+            Could not create job: {createJobMutation.error.message}
+          </p>
         )}
         {jobsQuery.loading ? (
           <div className="no-sticky">...</div>
