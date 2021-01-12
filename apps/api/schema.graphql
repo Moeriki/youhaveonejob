@@ -13,11 +13,11 @@ type Job {
 }
 
 type Mutation {
-  completeJob(id: String): Job
+  completeJob(id: String!): Job
   createJob(description: String!): Job
 }
 
 type Query {
-  job(id: String): Job
+  job(id: String!): Job
   jobs(completed: Boolean): [Job]
 }

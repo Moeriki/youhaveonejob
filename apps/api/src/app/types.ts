@@ -18,7 +18,7 @@ export const Query = objectType({
   definition(t) {
     t.field('job', {
       type: 'Job',
-      args: { id: stringArg() },
+      args: { id: nonNull(stringArg()) },
       resolve: (_, { id }, ctx) => {
         return ctx.prisma.job.findFirst({
           where: { id },
@@ -61,7 +61,7 @@ export const Mutation = objectType({
 
     t.field('completeJob', {
       type: 'Job',
-      args: { id: stringArg() },
+      args: { id: nonNull(stringArg()) },
       resolve: (_, { id }, ctx) => {
         return ctx.prisma.job.update({
           where: { id: Number(id) },

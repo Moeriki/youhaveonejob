@@ -94,7 +94,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     completeJob: { // args
-      id?: string | null; // String
+      id: string; // String!
     }
     createJob: { // args
       description: string; // String!
@@ -102,7 +102,7 @@ export interface NexusGenArgTypes {
   }
   Query: {
     job: { // args
-      id?: string | null; // String
+      id: string; // String!
     }
     jobs: { // args
       completed?: boolean | null; // Boolean
