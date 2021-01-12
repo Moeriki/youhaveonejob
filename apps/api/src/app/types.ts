@@ -1,24 +1,7 @@
-import { User } from '@prisma/client';
-import {
-  AuthenticationError,
-  ForbiddenError,
-  UserInputError,
-} from 'apollo-server';
-import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import { booleanArg, intArg, nonNull, objectType, stringArg } from 'nexus';
+import { booleanArg, nonNull, objectType, stringArg } from 'nexus';
 
-const { JWT_SECRET, PASSWORD_PEPPER } = process.env;
-const HASH_ROUNDS = 10;
-
-export interface UserSession {
-  id: string;
-}
-
-function generateUserToken(user: User): string {
-  const session: UserSession = { id: user.id };
-  return jwt.sign(session, JWT_SECRET);
-}
+import * as Auth from './auth';
+import { JobSdl } from './sdl';
 
 export const job = objectType({
   name: 'Job',
@@ -56,14 +39,9 @@ export const Query = objectType({
     t.list.field('jobs', {
       type: 'Job',
       args: { completed: booleanArg() },
-      resolve: (_, { completed = false }, { prisma, user }) => {
-        if (user == null) {
-          throw new ForbiddenError();
-        }
-        return prisma.job.findMany({
-          where: { completed },
-          orderBy: { createdAt: 'asc' },
-        });
+      resolve: (_, { completed = false }, { session }) => {
+        Auth.assertSession(session);
+        return JobSdl.find({ completed });
       },
     });
   },
@@ -74,69 +52,37 @@ export const Mutation = objectType({
   definition(t) {
     t.field('createJob', {
       type: 'Job',
-      args: {
-        description: nonNull(stringArg()),
-      },
-      resolve: (_, { description }, { prisma, user }) => {
-        if (user == null) {
-          throw new ForbiddenError();
-        }
-        if (description.trim() === '') {
-          throw new UserInputError('Cannot create job without a description');
-        }
-        return prisma.job.create({
-          data: { description },
-        });
+      args: { description: nonNull(stringArg()) },
+      resolve: (_, args, { session }) => {
+        Auth.assertSession(session);
+        return JobSdl.create(args);
       },
     });
 
     t.field('completeJob', {
       type: 'Job',
       args: { id: nonNull(stringArg()) },
-      resolve: (_, { id }, { prisma, user }) => {
-        if (user == null) {
-          throw new ForbiddenError();
-        }
-        return prisma.job.update({
-          where: { id: Number(id) },
-          data: { completed: true },
-        });
+      resolve: (_, { id }, { session }) => {
+        Auth.assertSession(session);
+        return JobSdl.complete(id);
       },
     });
 
     t.field('login', {
       type: 'Authentication',
       args: { email: nonNull(stringArg()), password: nonNull(stringArg()) },
-      resolve: async (_, { email, password }, { prisma }) => {
-        const user = await prisma.user.findFirst({
-          where: { email },
-        });
-        if (user == null) {
-          throw new AuthenticationError();
-        }
-        const isValid = await bcrypt.compare(
-          `${password}${PASSWORD_PEPPER}`,
-          user.password
-        );
-        if (isValid) {
-          return { token: generateUserToken(user) };
-        }
-        throw new AuthenticationError();
+      resolve: async (_, { email, password }) => {
+        const token = await Auth.login(email, password);
+        return { token };
       },
     });
 
     t.field('register', {
       type: 'Authentication',
       args: { email: nonNull(stringArg()), password: nonNull(stringArg()) },
-      resolve: async (_, { email, password }, { prisma }) => {
-        const hash = await bcrypt.hash(
-          `${password}${PASSWORD_PEPPER}`,
-          HASH_ROUNDS
-        );
-        const user = await prisma.user.create({
-          data: { email, password: hash },
-        });
-        return { token: generateUserToken(user) };
+      resolve: async (_, { email, password }) => {
+        const token = await Auth.register(email, password);
+        return { token };
       },
     });
   },
